@@ -95,4 +95,48 @@ describe('TodosComponent', () => {
 
 
   });
+
+
+  it('should call the server to delete todo items if user confirm', () => {
+
+    // Arrange
+    spyOn(window, 'confirm')
+      .and
+      .returnValue(true);
+
+    const spy = spyOn(service, 'delete')
+      .and
+      .returnValue(empty());
+
+    // Action
+    component.delete(1);
+
+    // Assertion
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(1); // More specific
+
+
+  });
+
+  it('should NOT call the server to delete todo items if user cancels', () => {
+
+    // Arrange
+    spyOn(window, 'confirm')
+      .and
+      .returnValue(false);
+
+    const spy = spyOn(service, 'delete')
+      .and
+      .returnValue(empty());
+
+    // Action
+    component.delete(1);
+
+    // Assertion
+    expect(spy).not.toHaveBeenCalled();
+
+
+
+  });
+
 });
